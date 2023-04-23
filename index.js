@@ -64,7 +64,7 @@ const ping = (template) => {
       webcam.capture('photo', (err, imageData) => {
 
         console.log('imageData', imageData);
-        console.log('user', process.env.SENDER_EMAIL);
+        console.log('user', process.env.SENDER_EMAIL, process.env.SENDER_EMAIL);
 
         if (err) {
           console.error(err);
