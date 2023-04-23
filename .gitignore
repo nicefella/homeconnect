@@ -1,5 +1,6 @@
 *.jsbundle
 *.tsbuildinfo
+photo.jpg
 .DS_Store
 .history
 .jest
