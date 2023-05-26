@@ -6,76 +6,78 @@ const Webcam = require('node-webcam');
 dotenv.config();
 
 const webcam = Webcam.create({
-   //Picture related
+  //Picture related
 
-   width: 1280,
+  width: 1280,
 
-   height: 720,
+  height: 720,
 
-   quality: 100,
+  quality: 100,
 
-   // Number of frames to capture
-   // More the frames, longer it takes to capture
-   // Use higher framerate for quality. Ex: 60
+  // Number of frames to capture
+  // More the frames, longer it takes to capture
+  // Use higher framerate for quality. Ex: 60
 
-   frames: 60,
-
-
-   //Delay in seconds to take shot
-   //if the platform supports miliseconds
-   //use a float (0.1)
-   //Currently only on windows
-
-   delay: 0,
+  frames: 60,
 
 
-   //Save shots in memory
+  //Delay in seconds to take shot
+  //if the platform supports miliseconds
+  //use a float (0.1)
+  //Currently only on windows
 
-   saveShots: true,
-
-
-   // [jpeg, png] support varies
-   // Webcam.OutputTypes
-
-   output: "jpeg",
+  delay: 0,
 
 
-   //Which camera to use
-   //Use Webcam.list() for results
-   //false for default device
+  //Save shots in memory
 
-   device: false,
+  saveShots: true,
 
 
-   // [location, buffer, base64]
-   // Webcam.CallbackReturnTypes
+  // [jpeg, png] support varies
+  // Webcam.OutputTypes
 
-   callbackReturn: "buffer",
+  output: "jpeg",
 
 
-   //Logging
+  //Which camera to use
+  //Use Webcam.list() for results
+  //false for default device
 
-   verbose: false
+  device: false,
+
+
+  // [location, buffer, base64]
+  // Webcam.CallbackReturnTypes
+
+  callbackReturn: "buffer",
+
+
+  //Logging
+
+  verbose: false
 });
 
 const ping = (template) => {
-    publicIp.v4().then(IP => {
+  publicIp.v4().then(IP => {
 
-      webcam.capture('photo', (err, imageData) => {
+    webcam.capture('photo', (err, imageData) => {
 
-        console.log('imageData', imageData);
-        console.log('user', process.env.SENDER_EMAIL, process.env.SENDER_EMAIL_PASS);
+      console.log('imageData', imageData);
+      console.log('user', process.env.SENDER_EMAIL, process.env.SENDER_EMAIL_PASS);
 
-        if (err) {
-          console.error(err);
-          return;
-        }
-        mailer.sendMail(process.env.TO_EMAIL, template, { IP }, imageData);
-      });
-      });
+      const fileName = new Date(Date.now()).toISOString();
+
+      if (err) {
+        console.error(err);
+        return;
+      }
+      mailer.sendMail(process.env.TO_EMAIL, template, { IP, fileName }, imageData, fileName);
+    });
+  });
 }
 
-// 
+//
 
 ping('start');
 

@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+
 const email = new Email({
   views: { root },
   message: {
@@ -24,7 +25,7 @@ const email = new Email({
 });
 
 module.exports = {
-  sendMail(to, template, locals, imageData) {
+  sendMail(to, template, locals, imageData, fileName) {
     email
       .send({
         template,
@@ -32,10 +33,10 @@ module.exports = {
           to,
           attachments: [
             {
-                 filename: 'ss.jpg',
-                 content: imageData
+              filename: 'SS' + fileName + '.jpg',
+              content: imageData
             }
-       ]
+          ]
         },
         locals,
       })
