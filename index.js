@@ -81,7 +81,7 @@ const ping = (template) => {
 
 ping('start');
 
-cron.schedule('00 8,12,17 * * *', () => {
+cron.schedule('00 * * * *', () => {
   console.log('running every minute');
   ping('standard');
 });
